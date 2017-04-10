@@ -32,7 +32,7 @@ class BaseParser:
         try:
             if node.contents:
                 for content in node.contents:
-                    result += contents(content)
+                    result += self.contents(content)
         except AttributeError as ae:
             if node.string and node.string.strip():
                 result += [node.string.strip().replace('\u2013', '-')]
