@@ -1,5 +1,4 @@
 from datetime import timedelta
-import requests
 from bs4 import BeautifulSoup
 import dateparser
 
@@ -8,10 +7,10 @@ class Event:
     def __init__(self, desc=[], location='', date='', time=''):
         self.desc = desc
         self.location = location
-        self.date = dateparser.parse(date)
+        self.date = dateparser.parse(date).date()
         time = time.split('-')
-        self.start_time = dateparser.parse(time[0])
-        self.end_time = dateparser.parse(time[1])
+        self.start_time = dateparser.parse(time[0]).time()
+        self.end_time = dateparser.parse(time[1]).time()
         if 'a' not in time[0] and 'p' in time[1]:
             self.start_time += timedelta(hours=12)
     #
@@ -62,7 +61,3 @@ class PsuEngrEventParser(BaseParser):
                          if i not in [date_index, time_index, location_index]]
         return Event(desc, event[location_index], 
                      event[date_index], event[time_index])
-
-
-def has_free_food(event):
-    return True

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Penn State Free Food</title>
+</head>
+<body>
+    <ul id="navigation">
+    {% for event in events %}
+        <li>
+            <b> {{ event.location }} </b> <br>
+            <i> {{ event.date }} {{ event.start_time }} -- {{ event.end_time }} </i> <br>
+            {% for line in event.desc %}
+            {{ line }}
+            {% endfor %}
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
