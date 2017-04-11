@@ -1,13 +1,16 @@
 import requests
 from flask import Flask, render_template
-from parsers import Event, PsuEngrEventParser
+from parsers import Event, PsuEngrEventParser, PsuEventParser
 
 
 app = Flask(__name__)
 
 def get_events():
     urls = {
-        'http://www.engr.psu.edu/career/upcoming-events.aspx': PsuEngrEventParser(),
+        'http://www.engr.psu.edu/career/upcoming-events.aspx': 
+            PsuEngrEventParser(),
+        'http://www.events.psu.edu/cgi-bin/cal/webevent.cgi?cmd=listweek&cat=&sib=1&sort=m,e,t&ws=0&cf=list&set=1&swe=1&sa=1&de=1&tf=0&sb=1&stz=Default&cal=cal299': 
+            PsuEventParser(),
     }
     events = []
     for url, parser in urls.items():
