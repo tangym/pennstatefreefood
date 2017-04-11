@@ -1,10 +1,12 @@
 from datetime import datetime
+import threading
 import requests
 from flask import Flask, render_template
 from parsers import Event, PsuEngrEventParser, PsuEventParser
 
 
 app = Flask(__name__)
+events = []
 
 def get_events():
     urls = {
@@ -41,8 +43,15 @@ def has_free_food(event):
 
 @app.route('/')
 def index():
-    events = get_events()
-    events = list(filter(has_free_food, events))
-    return render_template('index.html', events=events)
+    food_events = list(filter(has_free_food, events))
+    return render_template('index.html', events=food_events)
 
+def update_events():
+    global events
+    events = get_events()
+    t = threading.Timer(1800, update_events)
+    t.daemon = True
+    t.start()
+
+update_events()
 app.run(host='0.0.0.0', port=8000, debug=True)
