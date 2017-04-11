@@ -27,4 +27,4 @@ def index():
     events = list(filter(has_free_food, events))
     return render_template('index.html', events=events)
 
-app.run(host='0.0.0.0', debug=True)
+app.run(host='0.0.0.0', port=8000, debug=True)
