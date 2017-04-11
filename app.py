@@ -1,3 +1,4 @@
+from datetime import datetime
 import requests
 from flask import Flask, render_template
 from parsers import Event, PsuEngrEventParser, PsuEventParser
@@ -19,7 +20,24 @@ def get_events():
     return events
 
 def has_free_food(event):
-    return True
+    # keyword criterion
+    # TODO: use a language model instead
+    keywords = ['food', 'pizza', 'appetizer']
+    for keyword in keywords:
+        for desc in event.desc:
+            if keyword in desc.lower():
+                return True
+
+    # time criterion
+    # TODO: check whether two time span overlap or not
+    lunch_start = datetime(1, 1, 1, 10, 30).time()
+    lunch_end = datetime(1, 1, 1, 12, 30).time()
+    dinner_start = datetime(1, 1, 1, 17, 00).time()
+    dinner_end = datetime(1, 1, 1, 19, 30).time()
+    if (lunch_start < event.start_time < lunch_end or 
+        dinner_start < event.start_time < dinner_end):
+        return True
+    return False
 
 @app.route('/')
 def index():
