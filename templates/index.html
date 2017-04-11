@@ -9,9 +9,10 @@
         <li>
             <b> {{ event.location }} </b> <br>
             <i> {{ event.date }} {{ event.start_time }} -- {{ event.end_time }} </i> <br>
-            {% for line in event.desc %}
-            {{ line }}
+            <p> {% for line in event.desc %}
+            {{ line }} <br>
             {% endfor %}
+            </p>
         </li>
     {% endfor %}
     </ul>
